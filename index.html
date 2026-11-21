@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Festivos LATAM 2026–2027</title><style>html,body{margin:0;padding:8px;background:#fff}</style></head><body>
+<!-- Festivos LATAM 2026-2027 · componente HTML autocontenido para OneCore (SharePoint)
+     Sin dependencias externas ni llamadas de red. Datos embebidos desde el Excel (hoja "Calendario agrupado").
+     Para actualizar datos: reemplazar el arreglo DATA dentro del <script>. -->
+<div class="hl" id="hl-root" aria-live="polite"></div>
+
+<style>
+.hl{
+  --hl-bg:#ffffff; --hl-surface:#faf9f8; --hl-border:#e1dfdd; --hl-text:#201f1e; --hl-muted:#605e5c;
+  --hl-accent:#0f6cbd; --hl-accent-soft:#eff6fc; --hl-today:#fff4ce; --hl-radius:8px;
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif; color:var(--hl-text);
+  background:var(--hl-bg); border:1px solid var(--hl-border); border-radius:var(--hl-radius);
+  padding:16px; box-sizing:border-box; container-type:inline-size; width:100%; font-size:14px; line-height:1.4;
+}
+.hl *{box-sizing:border-box}
+.hl button,.hl select{font:inherit;color:inherit}
+.hl-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.hl-title{margin:0;font-size:18px;font-weight:600}
+.hl-sub{color:var(--hl-muted);font-size:12px;margin-top:2px}
+.hl-seg{display:inline-flex;border:1px solid var(--hl-border);border-radius:6px;overflow:hidden}
+.hl-seg button{border:0;background:#fff;padding:6px 14px;cursor:pointer}
+.hl-seg button+button{border-left:1px solid var(--hl-border)}
+.hl-seg button[aria-pressed="true"]{background:var(--hl-accent);color:#fff}
+.hl-nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+.hl-btn{border:1px solid var(--hl-border);background:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;min-height:32px}
+.hl-btn:hover:not(:disabled){background:var(--hl-surface)}
+.hl-btn:disabled{opacity:.4;cursor:default}
+.hl-select{border:1px solid var(--hl-border);background:#fff;border-radius:6px;padding:6px 10px;min-height:32px;text-transform:capitalize}
+.hl button:focus-visible,.hl select:focus-visible{outline:2px solid var(--hl-accent);outline-offset:1px}
+.hl-weeks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.hl-wk{border:1px solid var(--hl-border);background:#fff;border-radius:999px;padding:4px 12px;cursor:pointer;font-size:13px;display:inline-flex;gap:6px;align-items:center}
+.hl-wk:hover{background:var(--hl-surface)}
+.hl-wk[aria-pressed="true"]{border-color:var(--hl-accent);background:var(--hl-accent-soft);color:var(--hl-accent);font-weight:600}
+.hl-wk small{background:var(--hl-border);color:var(--hl-text);border-radius:999px;padding:0 7px;font-size:11px;font-weight:600}
+.hl-wk[aria-pressed="true"] small{background:var(--hl-accent);color:#fff}
+.hl-filters{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:10px 0;border-top:1px solid var(--hl-border);border-bottom:1px solid var(--hl-border);margin-bottom:12px}
+.hl-filters .lbl{font-size:12px;color:var(--hl-muted);margin-right:4px}
+.hl-chip{border:1px solid var(--hl-border);background:#fff;border-radius:999px;padding:3px 11px 3px 8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:13px}
+.hl-chip i{width:10px;height:10px;border-radius:50%;background:var(--k);display:inline-block}
+.hl-chip[aria-pressed="true"]{border-color:var(--k);background:color-mix(in srgb,var(--k) 14%,#fff);font-weight:600}
+.hl-clear{border:0;background:none;color:var(--hl-accent);cursor:pointer;padding:4px 6px;font-size:13px}
+.hl-range{margin:0 0 8px;font-size:15px;font-weight:600}
+.hl-banner{background:var(--hl-accent-soft);border:1px solid #c7e0f4;border-radius:6px;padding:8px 12px;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.hl-grid{display:grid;gap:10px;grid-template-columns:1fr}
+@container (min-width:600px){.hl-grid{grid-template-columns:repeat(4,1fr)}}
+@container (min-width:960px){.hl-grid{grid-template-columns:repeat(7,1fr)}}
+.hl-day{border:1px solid var(--hl-border);border-radius:var(--hl-radius);background:#fff;display:flex;flex-direction:column;min-height:110px}
+.hl-day.is-weekend{background:var(--hl-surface)}
+.hl-day.is-today{border-color:#c19c00;box-shadow:0 0 0 1px #c19c00}
+.hl-day header{display:flex;align-items:baseline;gap:6px;padding:8px 10px;border-bottom:1px solid var(--hl-border)}
+.hl-day.is-today header{background:var(--hl-today)}
+.hl-dow{font-size:12px;color:var(--hl-muted);text-transform:uppercase;letter-spacing:.03em}
+.hl-dnum{font-size:20px;font-weight:600;line-height:1}
+.hl-dmon{font-size:12px;color:var(--hl-muted)}
+.hl-hoy{margin-left:auto;font-size:11px;background:#c19c00;color:#fff;border-radius:4px;padding:1px 6px}
+.hl-body{padding:8px 10px;display:flex;flex-direction:column;gap:8px;flex:1}
+.hl-none{color:#a19f9d;font-size:12px}
+.hl-item{border-left:3px solid var(--k);padding-left:8px}
+.hl-codes{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:3px}
+.hl-code{font-size:11px;font-weight:700;background:color-mix(in srgb,var(--k) 16%,#fff);border:1px solid var(--k);border-radius:4px;padding:0 5px;line-height:18px}
+.hl-name{font-size:13px;font-weight:600}
+.hl-note{font-size:12px;color:var(--hl-muted);margin-top:1px}
+.hl-also{font-size:12px;color:var(--hl-muted);border-top:1px dashed var(--hl-border);padding-top:6px;margin-top:auto}
+.hl-also b{color:var(--hl-text)}
+.hl-more{border-top:1px solid var(--hl-border);padding:6px 10px;font-size:12px;color:var(--hl-muted)}
+.hl-more summary{cursor:pointer;color:var(--hl-accent)}
+.hl-more dl{margin:6px 0 0}
+.hl-more dt{font-weight:600;color:var(--hl-text);margin-top:4px}
+.hl-more dd{margin:0}
+.hl-mgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.hl-mh{font-size:12px;color:var(--hl-muted);text-align:center;padding:4px 0;text-transform:uppercase}
+.hl-cell{border:1px solid var(--hl-border);border-radius:6px;background:#fff;min-height:84px;padding:4px 5px;text-align:left;display:flex;flex-direction:column;gap:3px;cursor:pointer}
+.hl-cell:hover{border-color:var(--hl-accent)}
+.hl-cell.out{background:var(--hl-surface);opacity:.55}
+.hl-cell.is-today{border-color:#c19c00;box-shadow:0 0 0 1px #c19c00;background:var(--hl-today)}
+.hl-cell .n{font-size:13px;font-weight:600}
+.hl-cell .tags{display:flex;flex-wrap:wrap;gap:2px}
+.hl-tag{font-size:10px;font-weight:700;line-height:15px;padding:0 4px;border-radius:3px;border:1px solid var(--k);background:color-mix(in srgb,var(--k) 16%,#fff)}
+@container (max-width:560px){
+  .hl-cell{min-height:56px}
+  .hl-tag{font-size:0;width:9px;height:9px;padding:0;border-radius:50%;background:var(--k);border:0}
+}
+.hl-foot{margin-top:12px;font-size:11px;color:var(--hl-muted)}
+</style>
+
+<script>
+(function () {
+  "use strict";
+  var DATA = [{"d":"2026-11-23","tipo":"Feriado nacional trasladado","src":"","items":[{"c":"Argentina","n":"Día de la Soberanía Nacional","note":"Traslado desde el 20 de noviembre; confirmar calendario oficial.","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2026-12-01","tipo":"Feriado nacional","src":"","items":[{"c":"Costa Rica","n":"Abolición del Ejército","note":"Pago no obligatorio según régimen laboral.","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2026-12-08","tipo":"Feriado nacional","src":"Calendario legal nacional; validar publicación oficial 2027","items":[{"c":"Argentina","n":"Inmaculada Concepción","note":"","src":""},{"c":"Chile","n":"Inmaculada Concepción","note":"","src":""},{"c":"Colombia","n":"Inmaculada Concepción","note":"","src":""},{"c":"Perú","n":"Inmaculada Concepción","note":"","src":""},{"c":"España","n":"Inmaculada Concepción","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2026-12-09","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Batalla de Ayacucho","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2026-12-25","tipo":"Feriado nacional; Feriado no laborable; Feriado nacional (descanso obligatorio)","src":"Calendario legal nacional; validar publicación oficial 2027","items":[{"c":"Argentina","n":"Navidad","note":"","src":""},{"c":"Brasil","n":"Navidad","note":"","src":""},{"c":"Chile","n":"Navidad","note":"","src":""},{"c":"Colombia","n":"Navidad","note":"","src":""},{"c":"Costa Rica","n":"Navidad","note":"","src":""},{"c":"Perú","n":"Navidad","note":"","src":""},{"c":"México","n":"Navidad","note":"","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"},{"c":"España","n":"Navidad","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-01-01","tipo":"Feriado nacional; Feriado de pago obligatorio; Feriado no laborable; Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"Argentina","n":"Año Nuevo","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Brasil","n":"Confraternización Universal","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"},{"c":"Chile","n":"Año Nuevo","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Colombia","n":"Año Nuevo","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Costa Rica","n":"Año Nuevo","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"},{"c":"Perú","n":"Año Nuevo","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"},{"c":"México","n":"Año Nuevo","note":"","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"},{"c":"España","n":"Año Nuevo","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-01-06","tipo":"Feriado laborable; Feriado nacional","src":"","items":[{"c":"España","n":"Epifanía del Señor","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-01-11","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Día de los Reyes Magos","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-02-01","tipo":"Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"México","n":"Día de la Constitución","note":"Conmemoración del 5 de febrero; se recorre al primer lunes de febrero.","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"}]},{"d":"2027-02-08","tipo":"Feriado nacional; Feriado laborable","src":"","items":[{"c":"Argentina","n":"Carnaval","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-02-09","tipo":"Feriado nacional; Feriado laborable","src":"","items":[{"c":"Argentina","n":"Carnaval","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-03-15","tipo":"Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"México","n":"Natalicio de Benito Juárez","note":"Conmemoración del 21 de marzo; se recorre al tercer lunes de marzo.","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"}]},{"d":"2027-03-22","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Día de San José","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-03-24","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Día Nacional de la Memoria por la Verdad y la Justicia","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-03-25","tipo":"Feriado nacional; Feriado de pago obligatorio; Feriado laborable","src":"","items":[{"c":"Colombia","n":"Jueves Santo","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Costa Rica","n":"Jueves Santo","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"},{"c":"Perú","n":"Jueves Santo","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-03-26","tipo":"Feriado nacional; Feriado de pago obligatorio; Feriado laborable","src":"","items":[{"c":"Argentina","n":"Viernes Santo","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Brasil","n":"Viernes Santo","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"},{"c":"Chile","n":"Viernes Santo","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Colombia","n":"Viernes Santo","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Costa Rica","n":"Viernes Santo","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"},{"c":"Perú","n":"Viernes Santo","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"},{"c":"España","n":"Viernes Santo","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-03-27","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Sábado Santo","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-04-02","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Día del Veterano y de los Caídos en la Guerra de Malvinas","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-04-11","tipo":"Feriado de pago obligatorio","src":"","items":[{"c":"Costa Rica","n":"Día de Juan Santamaría","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-04-21","tipo":"Feriado nacional","src":"","items":[{"c":"Brasil","n":"Tiradentes","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"}]},{"d":"2027-05-01","tipo":"Feriado nacional; Feriado de pago obligatorio; Feriado no laborable; Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"Argentina","n":"Día del Trabajo","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Brasil","n":"Día del Trabajo","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"},{"c":"Chile","n":"Día del Trabajo","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Costa Rica","n":"Día del Trabajo","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"},{"c":"Perú","n":"Día del Trabajo","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"},{"c":"México","n":"Día del Trabajo","note":"","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"},{"c":"España","n":"Día del Trabajo","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-05-10","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Ascensión del Señor","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-05-21","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Glorias Navales","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-05-25","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Revolución de Mayo","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-05-31","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Corpus Christi","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-06-06","tipo":"Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"México","n":"Jornada electoral federal","note":"Fracc. IX del art. 74: aplica por elecciones federales y locales concurrentes; confirmar con el calendario del INE.","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"}]},{"d":"2027-06-07","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Sagrado Corazón","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Perú","n":"Batalla de Arica y Día de la Bandera","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-06-17","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Paso a la Inmortalidad del General Martín Miguel de Güemes","note":"Fecha trasladable; confirmar decreto anual.","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-06-20","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Paso a la Inmortalidad del General Manuel Belgrano","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-06-21","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Día Nacional de los Pueblos Indígenas","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-06-28","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"San Pedro y San Pablo","note":"Trasladado","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-06-29","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"San Pedro y San Pablo","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-07-05","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"San Pedro y San Pablo","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-07-09","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Día de la Independencia","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-07-16","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Virgen del Carmen","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-07-20","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Día de la Independencia","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-07-23","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Día de la Fuerza Aérea del Perú","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-07-25","tipo":"Feriado de pago obligatorio","src":"","items":[{"c":"Costa Rica","n":"Anexión del Partido de Nicoya","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-07-28","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Fiestas Patrias","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-07-29","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Fiestas Patrias","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-08-02","tipo":"Feriado de pago no obligatorio","src":"","items":[{"c":"Costa Rica","n":"Día de la Virgen de los Ángeles","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-08-06","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Batalla de Junín","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-08-07","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Batalla de Boyacá","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-08-15","tipo":"Feriado nacional; Feriado de pago obligatorio","src":"","items":[{"c":"Chile","n":"Asunción de la Virgen","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Costa Rica","n":"Día de la Madre","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-08-16","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Asunción de la Virgen","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-08-17","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Paso a la Inmortalidad del General José de San Martín","note":"Fecha trasladable; confirmar decreto anual.","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"}]},{"d":"2027-08-30","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Santa Rosa de Lima","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-08-31","tipo":"Feriado de pago no obligatorio","src":"","items":[{"c":"Costa Rica","n":"Día de la Persona Negra y la Cultura Afrocostarricense","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-09-07","tipo":"Feriado nacional","src":"","items":[{"c":"Brasil","n":"Independencia de Brasil","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"}]},{"d":"2027-09-15","tipo":"Feriado de pago obligatorio","src":"","items":[{"c":"Costa Rica","n":"Día de la Independencia","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-09-16","tipo":"Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"México","n":"Día de la Independencia","note":"","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"}]},{"d":"2027-09-17","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Feriado adicional de Fiestas Patrias","note":"Aplicable por coincidir el 18 y 19 de septiembre con sábado y domingo.","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-09-18","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Independencia Nacional","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-09-19","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Glorias del Ejército","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-10-08","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Combate de Angamos","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-10-11","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Encuentro de Dos Mundos","note":"Trasladado","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-10-12","tipo":"Feriado nacional; Feriado laborable","src":"","items":[{"c":"Argentina","n":"Día del Respeto a la Diversidad Cultural","note":"Fecha trasladable; confirmar decreto anual.","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Brasil","n":"Nuestra Señora Aparecida","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"},{"c":"España","n":"Fiesta Nacional de España","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-10-18","tipo":"Feriado nacional","src":"","items":[{"c":"Colombia","n":"Día de la Raza","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"}]},{"d":"2027-10-31","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Día de las Iglesias Evangélicas y Protestantes","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"}]},{"d":"2027-11-01","tipo":"Feriado nacional","src":"","items":[{"c":"Chile","n":"Todos los Santos","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Colombia","n":"Todos los Santos","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Perú","n":"Todos los Santos","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"},{"c":"España","n":"Todos los Santos","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-11-02","tipo":"Feriado nacional; Feriado laborable","src":"","items":[{"c":"Brasil","n":"Día de los Difuntos","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"}]},{"d":"2027-11-15","tipo":"Feriado nacional; Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"Brasil","n":"Proclamación de la República","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"},{"c":"Colombia","n":"Independencia de Cartagena","note":"Trasladado","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"México","n":"Día de la Revolución","note":"Conmemoración del 20 de noviembre; se recorre al tercer lunes de noviembre.","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"}]},{"d":"2027-11-20","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Día de la Soberanía Nacional","note":"Fecha trasladable; confirmar decreto anual.","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Brasil","n":"Día de la Conciencia Negra","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"}]},{"d":"2027-12-01","tipo":"Feriado de pago no obligatorio","src":"","items":[{"c":"Costa Rica","n":"Abolición del Ejército","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"}]},{"d":"2027-12-06","tipo":"Feriado nacional","src":"","items":[{"c":"España","n":"Día de la Constitución Española","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-12-08","tipo":"Feriado nacional","src":"","items":[{"c":"Argentina","n":"Inmaculada Concepción","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Chile","n":"Inmaculada Concepción","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Colombia","n":"Inmaculada Concepción","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Perú","n":"Inmaculada Concepción","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"},{"c":"España","n":"Inmaculada Concepción","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]},{"d":"2027-12-09","tipo":"Feriado nacional","src":"","items":[{"c":"Perú","n":"Batalla de Ayacucho","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"}]},{"d":"2027-12-25","tipo":"Feriado nacional; Feriado de pago obligatorio; Feriado no laborable; Feriado nacional (descanso obligatorio)","src":"","items":[{"c":"Argentina","n":"Navidad","note":"","src":"Ley 27.399; traslados y feriados turísticos sujetos a calendario/decreto oficial"},{"c":"Brasil","n":"Navidad","note":"","src":"Calendario nacional brasileño; confirmar portaria anual de feriados e pontos facultativos"},{"c":"Chile","n":"Navidad","note":"","src":"Calendario legal nacional; validar publicación oficial 2027"},{"c":"Colombia","n":"Navidad","note":"","src":"Ley 51 de 1983 (Ley Emiliani); calendario calculado para 2027"},{"c":"Costa Rica","n":"Navidad","note":"","src":"Código de Trabajo de Costa Rica; confirmar calendario laboral anual"},{"c":"Perú","n":"Navidad","note":"","src":"Legislación peruana de feriados nacionales; verificar modificaciones normativas"},{"c":"México","n":"Navidad","note":"","src":"Ley Federal del Trabajo, art. 74; fechas calculadas para 2027, validar publicación oficial"},{"c":"España","n":"Navidad","note":"","src":"Resolución de la Dirección General de Trabajo (BOE 13-oct-2026) y calendario laboral 2026; solo festivos nacionales comunes; validar publicación oficial"}]}];
+
+  var PAISES = [
+    { n: "Argentina",  c: "AR", k: "#2b88d8" },
+    { n: "Brasil",     c: "BR", k: "#2e9e44" },
+    { n: "Chile",      c: "CL", k: "#d13438" },
+    { n: "Colombia",   c: "CO", k: "#c19c00" },
+    { n: "Costa Rica", c: "CR", k: "#8764b8" },
+    { n: "España",     c: "ES", k: "#8e562e" },
+    { n: "México",     c: "MX", k: "#ca5010" },
+    { n: "Perú",       c: "PE", k: "#e3008c" }
+  ];
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  var MESES_C = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  var DIAS = ["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"];
+
+  var root = document.getElementById("hl-root");
+  if (!root) return;
+
+  var pais = {};
+  PAISES.forEach(function (p) { pais[p.n] = p; });
+  var byDate = {};
+  DATA.forEach(function (r) { byDate[r.d] = r; });
+
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function key(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function parse(k) { var a = k.split("-"); return new Date(+a[0], +a[1] - 1, +a[2]); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function mondayOf(d) { return addDays(d, -((d.getDay() + 6) % 7)); }
+  function monthIdx(d) { return d.getFullYear() * 12 + d.getMonth(); }
+
+  var keys = DATA.map(function (r) { return r.d; }).sort();
+  var minDate = parse(keys[0]), maxDate = parse(keys[keys.length - 1]);
+  var today = new Date(); today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  var todayKey = key(today);
+  // El rango navegable incluye la fecha de hoy aunque caiga fuera de los datos del Excel
+  var navMin = today < minDate ? today : minDate, navMax = today > maxDate ? today : maxDate;
+  var minM = monthIdx(navMin), maxM = monthIdx(navMax);
+
+  function clampM(m) { return Math.max(minM, Math.min(maxM, m)); }
+  function mDate(m) { return new Date(Math.floor(m / 12), m % 12, 1); }
+
+  var start = today;
+  var state = {
+    view: "week",
+    week: mondayOf(start),
+    month: monthIdx(start),
+    sel: {}                       // países seleccionados; vacío = todos
+  };
+  function selCount() { return Object.keys(state.sel).length; }
+
+  function h(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function btn(text, cls, onclick) {
+    var b = h("button", cls, text); b.type = "button"; b.addEventListener("click", onclick); return b;
+  }
+  function colorVar(e, c) { e.style.setProperty("--k", pais[c] ? pais[c].k : "#605e5c"); }
+
+  function itemsOn(k) {
+    var r = byDate[k]; if (!r) return [];
+    var n = selCount();
+    return r.items.filter(function (i) { return !n || state.sel[i.c]; })
+      .sort(function (a, b) { return a.c < b.c ? -1 : 1; });
+  }
+  function othersOn(k) {
+    var r = byDate[k]; if (!r || !selCount()) return [];
+    return r.items.filter(function (i) { return !state.sel[i.c]; });
+  }
+  function countRange(from, to) {
+    var t = 0;
+    for (var d = from; d <= to; d = addDays(d, 1)) {
+      var seen = {}; itemsOn(key(d)).forEach(function (i) { seen[i.n] = 1; });
+      t += Object.keys(seen).length;   // un mismo festivo en varios países cuenta una vez
+    }
+    return t;
+  }
+  function nextAfter(d) {
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i] > key(d) && itemsOn(keys[i]).length) return parse(keys[i]);
+    }
+    return null;
+  }
+  function fmtLong(d) { return DIAS[(d.getDay() + 6) % 7] + " " + d.getDate() + " " + MESES_C[d.getMonth()] + " " + d.getFullYear(); }
+  function fmtShort(d) { return d.getDate() + " " + MESES_C[d.getMonth()]; }
+
+  /* ---------- navegación ---------- */
+  function goWeek(monday) {
+    state.week = monday;
+    state.month = clampM(monthIdx(addDays(monday, 3)));
+    render();
+  }
+  function goMonth(m) {
+    m = clampM(m);
+    state.month = m;
+    var first = mDate(m);
+    var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
+    state.week = (today >= first && today <= last) ? mondayOf(today) : mondayOf(first);
+    render();
+  }
+  function goDay(d) {
+    state.view = "week"; goWeek(mondayOf(d));
+  }
+
+  /* ---------- piezas ---------- */
+  function header() {
+    var top = h("div", "hl-top");
+    var t = h("div");
+    t.appendChild(h("h2", "hl-title", "Festivos LATAM 2026–2027"));
+    t.appendChild(h("div", "hl-sub", "Fechas sujetas a validación oficial; confirmar con RR. HH. o responsables locales."));
+    top.appendChild(t);
+    var seg = h("div", "hl-seg");
+    [["week", "Semana"], ["month", "Mes"]].forEach(function (v) {
+      var b = btn(v[1], "", function () { state.view = v[0]; render(); });
+      b.setAttribute("aria-pressed", state.view === v[0]);
+      seg.appendChild(b);
+    });
+    top.appendChild(seg);
+    return top;
+  }
+
+  function nav() {
+    var wrap = h("div", "hl-nav");
+    var isWeek = state.view === "week";
+
+    var prev = btn("‹", "hl-btn", function () {
+      if (isWeek) goWeek(addDays(state.week, -7)); else goMonth(state.month - 1);
+    });
+    prev.setAttribute("aria-label", isWeek ? "Semana anterior" : "Mes anterior");
+    prev.disabled = isWeek ? state.week <= mondayOf(navMin) : state.month <= minM;
+    var next = btn("›", "hl-btn", function () {
+      if (isWeek) goWeek(addDays(state.week, 7)); else goMonth(state.month + 1);
+    });
+    next.setAttribute("aria-label", isWeek ? "Semana siguiente" : "Mes siguiente");
+    next.disabled = isWeek ? state.week >= mondayOf(navMax) : state.month >= maxM;
+
+    var sel = h("select", "hl-select");
+    sel.setAttribute("aria-label", "Mes");
+    for (var m = minM; m <= maxM; m++) {
+      var o = h("option", "", MESES[m % 12] + " " + Math.floor(m / 12));
+      o.value = m; if (m === state.month) o.selected = true;
+      sel.appendChild(o);
+    }
+    sel.addEventListener("change", function () { goMonth(+sel.value); });
+
+    var hoy = btn("Hoy", "hl-btn", function () {
+      state.week = mondayOf(start); state.month = monthIdx(start); render();
+    });
+
+    wrap.appendChild(prev); wrap.appendChild(sel); wrap.appendChild(next); wrap.appendChild(hoy);
+    return wrap;
+  }
+
+  function weekChips() {
+    var wrap = h("div", "hl-weeks");
+    wrap.setAttribute("role", "group"); wrap.setAttribute("aria-label", "Semanas del mes");
+    var first = mDate(state.month);
+    var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
+    var w = mondayOf(first), i = 1;
+    while (w <= last) {
+      (function (mon, idx) {
+        var end = addDays(mon, 6);
+        var cnt = countRange(mon, end);
+        var b = btn("", "hl-wk", function () { goWeek(mon); });
+        b.setAttribute("aria-pressed", key(mon) === key(state.week));
+        b.appendChild(document.createTextNode("Sem " + idx + " · " + fmtShort(mon) + " – " + fmtShort(end)));
+        if (cnt) { var s = h("small", "", String(cnt)); s.title = cnt + (cnt === 1 ? " festivo" : " festivos"); b.appendChild(s); }
+        wrap.appendChild(b);
+      })(w, i);
+      w = addDays(w, 7); i++;
+    }
+    return wrap;
+  }
+
+  function filters() {
+    var wrap = h("div", "hl-filters");
+    wrap.setAttribute("role", "group"); wrap.setAttribute("aria-label", "Filtrar por país");
+    wrap.appendChild(h("span", "lbl", "Países:"));
+    PAISES.forEach(function (p) {
+      var c = btn("", "hl-chip", function () {
+        if (state.sel[p.n]) delete state.sel[p.n]; else state.sel[p.n] = true;
+        render();
+      });
+      colorVar(c, p.n);
+      c.appendChild(h("i"));
+      c.appendChild(document.createTextNode(p.n));
+      c.setAttribute("aria-pressed", !!state.sel[p.n]);
+      wrap.appendChild(c);
+    });
+    if (selCount()) wrap.appendChild(btn("Ver todos", "hl-clear", function () { state.sel = {}; render(); }));
+    return wrap;
+  }
+
+  /* ---------- vista semana ---------- */
+  function dayCard(d, idx) {
+    var k = key(d), items = itemsOn(k), others = othersOn(k), rec = byDate[k];
+    var card = h("article", "hl-day" + (k === todayKey ? " is-today" : "") + (idx >= 5 ? " is-weekend" : ""));
+    var head = h("header");
+    head.appendChild(h("span", "hl-dow", DIAS[idx]));
+    head.appendChild(h("span", "hl-dnum", String(d.getDate())));
+    head.appendChild(h("span", "hl-dmon", MESES_C[d.getMonth()]));
+    if (k === todayKey) head.appendChild(h("span", "hl-hoy", "Hoy"));
+    card.appendChild(head);
+
+    var body = h("div", "hl-body");
+    if (!items.length) body.appendChild(h("div", "hl-none", selCount() && others.length ? "Sin festivos en tu selección" : "Sin festivos"));
+    var groups = [], gidx = {};
+    items.forEach(function (it) {
+      var g = gidx[it.n];
+      if (!g) { g = gidx[it.n] = { n: it.n, list: [] }; groups.push(g); }
+      g.list.push(it);
+    });
+    groups.forEach(function (g) {
+      var row = h("div", "hl-item");
+      row.style.setProperty("--k", g.list.length > 1 ? "#605e5c" : pais[g.list[0].c].k);
+      var codes = h("div", "hl-codes");
+      g.list.forEach(function (it) {
+        var c = h("span", "hl-code", pais[it.c].c); colorVar(c, it.c); c.title = it.c; codes.appendChild(c);
+      });
+      row.appendChild(codes);
+      row.appendChild(h("div", "hl-name", g.n));
+      var notes = g.list.filter(function (i) { return i.note; }).map(function (i) {
+        return (g.list.length > 1 ? i.c + ": " : "") + i.note;
+      });
+      row.appendChild(h("div", "hl-note", g.list.map(function (i) { return i.c; }).join(", ") + (notes.length ? " · " + notes.join(" · ") : "")));
+      body.appendChild(row);
+    });
+    if (others.length) {
+      var al = h("div", "hl-also");
+      al.appendChild(document.createTextNode("También festivo en: "));
+      al.appendChild(h("b", "", others.map(function (o) { return pais[o.c].c; }).join(" · ")));
+      al.title = others.map(function (o) { return o.c + ": " + o.n; }).join("\n");
+      body.appendChild(al);
+    }
+    card.appendChild(body);
+
+    if (items.length) {
+      var det = h("details", "hl-more");
+      det.appendChild(h("summary", "", "Detalle"));
+      var dl = h("dl");
+      dl.appendChild(h("dt", "", "Tipo"));
+      dl.appendChild(h("dd", "", rec.tipo));
+      items.forEach(function (it) {
+        var src = it.src || rec.src;
+        if (!src) return;
+        dl.appendChild(h("dt", "", "Fuente · " + it.c));
+        dl.appendChild(h("dd", "", src));
+      });
+      det.appendChild(dl);
+      card.appendChild(det);
+    }
+    return card;
+  }
+
+  function weekView() {
+    var frag = document.createDocumentFragment();
+    var end = addDays(state.week, 6);
+    var cnt = countRange(state.week, end);
+    var title = "Semana del " + state.week.getDate() + (state.week.getMonth() !== end.getMonth() ? " " + MESES[state.week.getMonth()] : "") +
+      " al " + end.getDate() + " de " + MESES[end.getMonth()] + " de " + end.getFullYear();
+    frag.appendChild(h("h3", "hl-range", title));
+
+    if (!cnt) {
+      var nx = nextAfter(end), b = h("div", "hl-banner");
+      b.appendChild(h("span", "", "Sin festivos esta semana" + (selCount() ? " en los países seleccionados" : "") + "." +
+        (nx ? " Siguiente: " + fmtLong(nx) + "." : "")));
+      if (nx) b.appendChild(btn("Ir a esa semana", "hl-btn", function () { goDay(nx); }));
+      frag.appendChild(b);
+    }
+    var grid = h("div", "hl-grid");
+    for (var i = 0; i < 7; i++) grid.appendChild(dayCard(addDays(state.week, i), i));
+    frag.appendChild(grid);
+    return frag;
+  }
+
+  /* ---------- vista mes ---------- */
+  function monthView() {
+    var frag = document.createDocumentFragment();
+    var first = mDate(state.month);
+    var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
+    var cnt = countRange(first, last);
+    frag.appendChild(h("h3", "hl-range", MESES[first.getMonth()].charAt(0).toUpperCase() + MESES[first.getMonth()].slice(1) + " " + first.getFullYear() +
+      " · " + cnt + (cnt === 1 ? " festivo" : " festivos")));
+    var grid = h("div", "hl-mgrid");
+    DIAS.forEach(function (n) { grid.appendChild(h("div", "hl-mh", n)); });
+    for (var d = mondayOf(first); d <= last || ((d.getDay() + 6) % 7) !== 0; d = addDays(d, 1)) {
+      (function (day) {
+        var k = key(day), items = itemsOn(k);
+        var c = btn("", "hl-cell" + (day.getMonth() !== first.getMonth() ? " out" : "") + (k === todayKey ? " is-today" : ""),
+          function () { goDay(day); });
+        c.setAttribute("aria-label", fmtLong(day) + (items.length ? ": " + items.map(function (i) { return i.c + " – " + i.n; }).join("; ") : ""));
+        c.appendChild(h("span", "n", String(day.getDate())));
+        if (items.length) {
+          var tags = h("span", "tags");
+          items.forEach(function (it) {
+            var t = h("span", "hl-tag", pais[it.c].c); colorVar(t, it.c); t.title = it.c + ": " + it.n; tags.appendChild(t);
+          });
+          c.appendChild(tags);
+        }
+        grid.appendChild(c);
+      })(d);
+    }
+    frag.appendChild(grid);
+    return frag;
+  }
+
+  function render() {
+    root.replaceChildren();
+    root.appendChild(header());
+    root.appendChild(nav());
+    if (state.view === "week") root.appendChild(weekChips());
+    root.appendChild(filters());
+    root.appendChild(state.view === "week" ? weekView() : monthView());
+    root.appendChild(h("div", "hl-foot", "Fuente: Excel «Festivos LATAM 2026–2027». Clic en un día del mes para abrir su semana."));
+  }
+  render();
+})();
+</script>
+
+</body></html>
